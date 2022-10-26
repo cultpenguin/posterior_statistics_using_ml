@@ -47,34 +47,20 @@ def ml_regression(usePrior='A',useM='M4',nhidden=4,nunits=40,
 
     txt=''
     N = 250000 # CHANGE THIS TO THE MAX LOOKUP SIZE FOR LOCALIZED REJECTION!!!
-    N = 1000000  
-    #N = 2000000
     N = 5000000
     if (usePrior=='A'):
-        file_training = '1D_P23_NO500_451_ABC%d_0000.h5' % (N)
-        file_sampling = '1D_P23_NO500_451_ABC%d_0000_ME0_aT1_CN1.h5' % (N)
         file_training = '1D_P23_NO500_451_ABC%d_0000_D%d_HTX%d_%d.h5' % (N,useData,useHTX,useHTX_data)
         file_sampling = '1D_P23_NO500_451_ABC%d_0000_D%d_HTX%d_%d_ME0_aT1_CN1.h5' % (N,useData,useHTX,useHTX_data)
         if useRef==7:
             file_sampling = '1D_P23_NO500_451_ABC%d_0000_ME0_aT1_CN1_ref7.h5' % (N);txt='ref7' # !!
     elif (usePrior=='B'):
-        file_training = '1D_P51_NO500_451_ABC%d_0000.h5'  % (N)
-        file_sampling = '1D_P51_NO500_451_ABC%d_0000_ME0_aT1_CN1.h5'  % (N)
         file_training = '1D_P51_NO500_451_ABC%d_0000_D%d_HTX%d_%d.h5' % (N,useData,useHTX,useHTX_data)
         file_sampling = '1D_P51_NO500_451_ABC%d_0000_D%d_HTX%d_%d_ME0_aT1_CN1.h5' % (N,useData,useHTX,useHTX_data)
         if useRef==7:
             file_sampling = '1D_P51_NO500_451_ABC%d_0000_ME0_aT1_CN1_ref7.h5' % (N);txt='ref7'
     elif (usePrior=='C'):
-        file_training = '1D_P22_NO500_451_ABC%d_0000.h5' % (N)
-        file_sampling = '1D_P22_NO500_451_ABC%d_0000_ME0_aT1_CN1.h5' % (N)
-        file_training = '1D_P22_NO500_451_ABC%d_0000_D2_HTX1_0.h5' % (N)
-        file_sampling = '1D_P22_NO500_451_ABC%d_0000_D2_HTX1_0_ME0_aT1_CN1.h5' % (N)
-        file_training = '1D_P22_NO500_451_ABC%d_0000_D2_HTX1_1.h5' % (N)
-        file_sampling = '1D_P22_NO500_451_ABC%d_0000_D2_HTX1_1_ME0_aT1_CN1.h5' % (N)
         file_training = '1D_P22_NO500_451_ABC%d_0000_D%d_HTX%d_%d.h5' % (N,useData,useHTX,useHTX_data)
         file_sampling = '1D_P22_NO500_451_ABC%d_0000_D%d_HTX%d_%d_ME0_aT1_CN1.h5' % (N,useData,useHTX,useHTX_data)
-
-        
         if useRef==7:
             file_sampling = '1D_P22_NO500_451_ABC%d_0000_ME0_aT1_CN1_ref7.h5' % (N);txt='ref7'
         
@@ -507,6 +493,7 @@ useRef_arr = [0]
 force_train = False
 nepochs=2000
 
+act='selu'
 act='relu'
 act='elu'
 
@@ -523,7 +510,6 @@ useLearningSchedule=True;learning_rate=0.01
 #%% MULTI M1
 useM='M1'
 
-tfp_dist_arr = ['Normal']
 usePrior_arr  = ['A','B','C']
 useRef_arr = [0]
 nhidden_arr = [8]
@@ -531,34 +517,20 @@ N_use_arr = np.array([1000,10000,100000,1000000]) #  Max size of training data s
 ls_arr=[0,1]
 nunits_arr=[20,40]
 act_arr=['selu','elu','relu']
-#
-
-nhidden_arr = [8]
-#N_use_arr = np.array([1000000]) #  Max size of training data set (multiple runs)
-N_use_arr = np.array([1000,10000,100000,1000000]) #  Max size of training data set (multiple runs)
-N_use_arr = np.array([5000000]) #  Max size of training data set (multiple runs)
-ls_arr=[1]
-
-# Normal for all
-usePrior_arr  = ['C','B','A']
-tfp_dist_arr = ['Normal']
-N_use_arr = np.array([1000,10000,100000,1000000,5000000]) #  Max size of training data set (multiple runs)
-
-# All pdfs for prior C
-usePrior_arr  = ['C']
-tfp_dist_arr = ['Normal','MixtureNormal2','MixtureNormal3','GeneralizedNormal']
-N_use_arr = np.array([5000000]) #  Max size of training data set (multiple runs)
-
-
 useHTX=1
 useData_arr = [2]
 useHTX_data_arr = [1]
-#useData_arr = [1,2]
-#useHTX_data_arr = [1,0]
-force_train = False
+tfp_dist_arr = ['Normal','MixtureNormal2','MixtureNormal3','GeneralizedNormal']
 
+
+# All pdfs for prior C
+usePrior_arr  = ['C']
+tfp_dist_arr = ['Normal']
+N_use_arr = np.array([5000000]) #  Max size of training data set (multiple runs)
+force_train = False
 nunits_arr=[40]
 act_arr=['relu']
+N_use_arr = np.array([1000])
 
 #usePrior_arr  = ['C']
 #N_use_arr = np.array([1000,10000])
@@ -589,8 +561,8 @@ for useBatchNormalization in [True]:
                                                         useBatchNormalization=useBatchNormalization,
                                                         learning_rate=learning_rate,useLearningSchedule=useLearningSchedule)    
 #%%
-#import sys
-#sys.exit("Stopping ,,,,,,")        
+import sys
+sys.exit("Stopping ,,,,,,")        
     
     
 #%% MULTI M5
