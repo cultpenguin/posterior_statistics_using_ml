@@ -11,7 +11,9 @@ doi:[https://doi.org/10.1029/2022JB024703](https://doi.org/10.1029/2022JB024703)
 
 
 Training data for priorA can be downloaded from (https://zenodo.org/record/7254008)
+
 Training data for priorB can be downloaded from (https://zenodo.org/record/7254030)
+
 Training data for priorC can be downloaded from (https://zenodo.org/record/7253825)
 
 The latest updated example is always available at https://github.com/cultpenguin/posterior_statistics_using_ml
