@@ -56,22 +56,16 @@ def ml_classification(usePrior='A',useM='M4',nhidden=4,nunits=40,
     N = 5000000
 
     if (usePrior=='A'):
-        file_training = '1D_P23_NO500_451_ABC%d_0000.h5' % (N)
-        file_sampling = '1D_P23_NO500_451_ABC%d_0000_ME0_aT1_CN1.h5' % (N)
         file_training = '1D_P23_NO500_451_ABC%d_0000_D%d_HTX%d_%d.h5' % (N,useData,useHTX,useHTX_data)
         file_sampling = '1D_P23_NO500_451_ABC%d_0000_D%d_HTX%d_%d_ME0_aT1_CN1.h5' % (N,useData,useHTX,useHTX_data)
         if useRef==7:
             file_sampling = '1D_P23_NO500_451_ABC%d_0000_ME0_aT1_CN1_ref7.h5' % (N);txt='ref7' # !!
     elif (usePrior=='B'):
-        file_training = '1D_P51_NO500_451_ABC%d_0000.h5'  % (N)
-        file_sampling = '1D_P51_NO500_451_ABC%d_0000_ME0_aT1_CN1.h5'  % (N)
         file_training = '1D_P51_NO500_451_ABC%d_0000_D%d_HTX%d_%d.h5' % (N,useData,useHTX,useHTX_data)
         file_sampling = '1D_P51_NO500_451_ABC%d_0000_D%d_HTX%d_%d_ME0_aT1_CN1.h5' % (N,useData,useHTX,useHTX_data)        
         if useRef==7:
             file_sampling = '1D_P51_NO500_451_ABC%d_0000_ME0_aT1_CN1_ref7.h5' % (N);txt='ref7'
     elif (usePrior=='C'):
-        file_training = '1D_P22_NO500_451_ABC%d_0000.h5' % (N)
-        file_sampling = '1D_P22_NO500_451_ABC%d_0000_ME0_aT1_CN1.h5' % (N)
         file_training = '1D_P22_NO500_451_ABC%d_0000_D%d_HTX%d_%d.h5' % (N,useData,useHTX,useHTX_data)
         file_sampling = '1D_P22_NO500_451_ABC%d_0000_D%d_HTX%d_%d_ME0_aT1_CN1.h5' % (N,useData,useHTX,useHTX_data)        
         if useRef==7:
@@ -80,13 +74,14 @@ def ml_classification(usePrior='A',useM='M4',nhidden=4,nunits=40,
     # Download if h5 files does not exist    
     if not os.path.exists(file_training):
       print("File (training) '%s' does not exist" % (file_training))
-      return -1
-      #print("Downloading '%s'" % (file_training))
-      #urlretrieve("https://github.com/cultpenguin/probabilistic-inverse-problems_and_ml/raw/main/%s" % (file_training),file_training)
+      print("Downloading '%s'" % (file_training))
+      urlretrieve('https://zenodo.org/record/7253825/files/1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1.h5?download=1','1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1.h5')
+      
     if not os.path.exists(file_sampling):
       print("File '%s' does not exist" % (file_sampling))
-      #print("Downloading %s" % (file_sampling))
-      #urlretrieve("https://github.com/cultpenguin/probabilistic-inverse-problems_and_ml/raw/main/%s" % (file_sampling),file_sampling)    
+      print("Downloading %s" % (file_sampling))
+      urlretrieve('https://zenodo.org/record/7253825/files/1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1_ME0_aT1_CN1.h5?download=1','1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1_ME0_aT1_CN1.h5')
+            
             
     f_training = h5py.File(file_training, 'r')
     f_sampling = h5py.File(file_sampling, 'r')
@@ -428,6 +423,11 @@ useData_arr = [2]
 act_arr=['relu','selu','elu']
 
 force_train=False
+
+doSmallTest=1
+if (doSmallTest==1):
+    usePrior_arr  = ['C']
+    N_use_arr = np.array([1000])
 
 #%% Run all
 #for useBatchNormalization in [True,False]:

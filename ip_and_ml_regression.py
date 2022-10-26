@@ -503,15 +503,16 @@ if (doSmallTest==1):
     usePrior_arr  = ['C']
     tfp_dist_arr = ['Normal']
     N_use_arr = np.array([5000000]) #  Max size of training data set (multiple runs)
-    N_use_arr = np.array([1000])
+    N_use_arr = np.array([10000])
     nhidden_arr = [8]
-    ls_arr=[0,1]
+    ls_arr=[0] # Usew learning schedule
     useHTX=1
     useData_arr = [2]
     useHTX_data_arr = [1]
     force_train = False
     nunits_arr=[40]
     act_arr=['relu']
+    useRef=0
 
 # for useBatchNormalization in [True,False]:
 for useBatchNormalization in [True]:
@@ -538,8 +539,8 @@ for useBatchNormalization in [True]:
                                                     useBatchNormalization=useBatchNormalization,
                                                     learning_rate=learning_rate,useLearningSchedule=useLearningSchedule)    
 #%%
-import sys
-sys.exit("Stopping ,,,,,,")        
+#import sys
+#sys.exit("Stopping ,,,,,,")        
     
     
 #%% n2: Thickness of layers with resistivity>225 ohm-m
@@ -553,9 +554,15 @@ N_use_arr = np.array([1000,10000,100000,1000000,5000000]) #  Max size of trainin
 useM='M5'
 nhidden_arr = [4]
 act='selu'
+tfp_dist_arr = ['Normal','MixtureNormal2','MixtureNormal3','GeneralizedNormal']
 
-#tfp_dist_arr = ['Normal','MixtureNormal2','MixtureNormal3','GeneralizedNormal']
-tfp_dist_arr = ['Normal']
+
+# SMALL TEST
+doSmallTest=1
+if (doSmallTest==1):
+    tfp_dist_arr = ['Normal']
+    N_use_arr = np.array([10000]) #  Max size of training data set (multiple runs)
+
 for act in act_arr:
     for useLearningSchedule in [True]:
         for usePrior in usePrior_arr:
@@ -583,60 +590,3 @@ for act in act_arr:
 import sys
 sys.exit("Stopping ,,,,,,")
 #%%
-
-useM = 'M5'
-usePrior='B'
-tfp_dist = 'Normal'
-#tfp_dist = 'LogNormal'
-#tfp_dist = 'GeneralizedNormal'
-#tfp_dist = 'Uniform' # does not work
-#tfp_dist = 'GeneralizedUniform'
-#tfp_dist = 'MixtureNormalC1' # Similar to 'Normal'
-#tfp_dist = 'MixtureNormalC2' # Gaussian Mixture (with 2 classes), constant uniform class probability
-#tfp_dist = 'MixtureNormalC3' # Gaussian Mixture (with 3 classes), constant uniform class probability
-#tfp_dist = 'MixtureNormal1' # Gaussian Mixture (with 1 class)
-#tfp_dist = 'MixtureNormal2' # Gaussian Mixture (with 2 classes)
-#tfp_dist = 'MixtureNormal3' # Gaussian Mixture (with 3 classes)
-  
-nepochs=10
-N_use=1000000;
-force_train = True;
-force_train = False;
-nhidden=8
-
-ml_regression(useM=useM, 
-              usePrior=usePrior, 
-              N_use=N_use, 
-              nepochs=nepochs,
-              tfp_dist=tfp_dist, 
-              force_train=force_train,
-              nhidden=nhidden,
-              useRef=7)    
-import sys
-sys.exit("Stopping ,,,,,,")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
