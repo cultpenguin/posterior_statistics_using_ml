@@ -67,13 +67,13 @@ def ml_regression(usePrior='A',useM='M4',nhidden=4,nunits=40,
     # Download if h5 files does not exist    
     if not os.path.exists(file_training):
       print("File (training) '%s' does not exist" % (file_training))
-      return -1
-      #print("Downloading '%s'" % (file_training))
-      #urlretrieve("https://github.com/cultpenguin/probabilistic-inverse-problems_and_ml/raw/main/%s" % (file_training),file_training)
+      print("Downloading '%s'" % (file_training))
+      urlretrieve('https://zenodo.org/record/7253825/files/1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1.h5?download=1','1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1.h5')
+      
     if not os.path.exists(file_sampling):
       print("File '%s' does not exist" % (file_sampling))
-      #print("Downloading %s" % (file_sampling))
-      #urlretrieve("https://github.com/cultpenguin/probabilistic-inverse-problems_and_ml/raw/main/%s" % (file_sampling),file_sampling)    
+      print("Downloading %s" % (file_sampling))
+      urlretrieve('https://zenodo.org/record/7253825/files/1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1_ME0_aT1_CN1.h5?download=1','1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1_ME0_aT1_CN1.h5')
             
     f_training = h5py.File(file_training, 'r')
     f_sampling = h5py.File(file_sampling, 'r')
@@ -473,67 +473,45 @@ def ml_regression(usePrior='A',useM='M4',nhidden=4,nunits=40,
 
     
 #%%
-#import sys
-#sys.exit("Stopping ,,,,,,")
 
-#%% MULTI M1
+#%% m: restivity 
+useM='M1'
+
+# FULL TEST
 usePrior_arr  = ['A','B','C']
 tfp_dist_arr = ['Normal','MixtureNormal2','MixtureNormal3','GeneralizedNormal']
-N_use_arr = np.array([1000,5000,10000,50000,100000,500000,1000000,2000000,5000000]) #  Max size of training data set (multiple runs)
-N_use_arr = np.array([1000,5000,10000,50000,100000,500000,1000000,2000000]) #  Max size of training data set (multiple runs)
-N_use_arr = np.array([1000,5000,10000,50000,100000,500000,1000000]) #  Max size of training data set (multiple runs)
-N_use_arr = np.array([5000000]) #  Max size of training data set (multiple runs)
 N_use_arr = np.array([1000,5000,10000,50000,100000,500000,1000000,5000000]) #  Max size of training data set (multiple runs)
 #N_use_arr = np.array([5000000]) #  Max size of training data set (multiple runs)
 nhidden_arr = [8]
-#nhidden_arr = [2,4,8]
 nunits=40
-#useRef_arr = [0,7]
 useRef_arr = [0]
 force_train = False
 nepochs=2000
+useLearningSchedule=True;learning_rate=0.01
 
 act='selu'
 act='relu'
 act='elu'
 
-useLearningSchedule=True;learning_rate=0.01
 #useLearningSchedule=False;learning_rate=0.001
 
+# SMALL TEST
+doSmallTest=1
+if (doSmallTest==1):
+    #%% MULTI M1
 
-#nepochs=10
-#N_use_arr = np.array([1000]) #  Max size of training data set (multiple runs)
-#nunits=40
-#tfp_dist_arr = ['Normal']
-
-
-#%% MULTI M1
-useM='M1'
-
-usePrior_arr  = ['A','B','C']
-useRef_arr = [0]
-nhidden_arr = [8]
-N_use_arr = np.array([1000,10000,100000,1000000]) #  Max size of training data set (multiple runs)
-ls_arr=[0,1]
-nunits_arr=[20,40]
-act_arr=['selu','elu','relu']
-useHTX=1
-useData_arr = [2]
-useHTX_data_arr = [1]
-tfp_dist_arr = ['Normal','MixtureNormal2','MixtureNormal3','GeneralizedNormal']
-
-
-# All pdfs for prior C
-usePrior_arr  = ['C']
-tfp_dist_arr = ['Normal']
-N_use_arr = np.array([5000000]) #  Max size of training data set (multiple runs)
-force_train = False
-nunits_arr=[40]
-act_arr=['relu']
-N_use_arr = np.array([1000])
-
-#usePrior_arr  = ['C']
-#N_use_arr = np.array([1000,10000])
+    usePrior_arr  = ['C']
+    tfp_dist_arr = ['Normal']
+    N_use_arr = np.array([5000000]) #  Max size of training data set (multiple runs)
+    N_use_arr = np.array([1000])
+    nhidden_arr = [8]
+    ls_arr=[0,1]
+    useHTX=1
+    useData_arr = [2]
+    useHTX_data_arr = [1]
+    force_train = False
+    nunits_arr=[40]
+    act_arr=['relu']
 
 # for useBatchNormalization in [True,False]:
 for useBatchNormalization in [True]:
@@ -546,38 +524,36 @@ for useBatchNormalization in [True]:
                             for nhidden in nhidden_arr:
                                 for nunits in nunits_arr:
                                     for tfp_dist in tfp_dist_arr:
-                                        for useRef in useRef_arr:
-                                            ml_regression(useM=useM,
-                                                        usePrior=usePrior, 
-                                                        N_use=N_use, 
-                                                        nunits=nunits,
-                                                        nhidden=nhidden,
-                                                        nepochs=nepochs,
-                                                        tfp_dist=tfp_dist, 
-                                                        force_train=force_train,
-                                                        useRef=useRef,
-                                                        act=act,
-                                                        useData=useData,useHTX=useHTX,useHTX_data=useHTX_data,
-                                                        useBatchNormalization=useBatchNormalization,
-                                                        learning_rate=learning_rate,useLearningSchedule=useLearningSchedule)    
+                                        ml_regression(useM=useM,
+                                                    usePrior=usePrior, 
+                                                    N_use=N_use, 
+                                                    nunits=nunits,
+                                                    nhidden=nhidden,
+                                                    nepochs=nepochs,
+                                                    tfp_dist=tfp_dist, 
+                                                    force_train=force_train,
+                                                    useRef=useRef,
+                                                    act=act,
+                                                    useData=useData,useHTX=useHTX,useHTX_data=useHTX_data,
+                                                    useBatchNormalization=useBatchNormalization,
+                                                    learning_rate=learning_rate,useLearningSchedule=useLearningSchedule)    
 #%%
 import sys
 sys.exit("Stopping ,,,,,,")        
     
     
-#%% MULTI M5
+#%% n2: Thickness of layers with resistivity>225 ohm-m
 useHTX=1
 useHTX_data = 1
 useData = 2
 force_train = False
-act_arr=['relu','selu']
-
 usePrior_arr  = ['C']
 
 N_use_arr = np.array([1000,10000,100000,1000000,5000000]) #  Max size of training data set (multiple runs)
 useM='M5'
 nhidden_arr = [4]
 act='selu'
+
 #tfp_dist_arr = ['Normal','MixtureNormal2','MixtureNormal3','GeneralizedNormal']
 tfp_dist_arr = ['Normal']
 for act in act_arr:
