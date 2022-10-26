@@ -1,6 +1,6 @@
 # probabilistic inverse problems and machine learning - example
 
-[![DOI](https://zenodo.org/badge/381701315.svg)](https://zenodo.org/badge/latestdoi/381701315)
+[![DOI](https://zenodo.org/badge/530996445.svg)](https://zenodo.org/badge/latestdoi/530996445)
 
 
 This repository includes python scripts that implements the idea proposed in 
