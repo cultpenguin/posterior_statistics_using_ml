@@ -30,9 +30,9 @@ from ip_and_ml import ml_classification
 
 useM = 'M3' # This refers to choosing the 'n1' model parameter (P(Layer) ), p=[n1]; See paper
 
-useSimpleTest=False
+useSimpleTest=True
 if (useSimpleTest):
-    N_use = 10000
+    N_use = 100000
 
     ml_classification(useM=useM,
                 usePrior='A', 

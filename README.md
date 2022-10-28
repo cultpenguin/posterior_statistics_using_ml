@@ -29,3 +29,17 @@ If you use pip, install the following packages
     
     pip install --upgrade numpy scipy jupyterlab matplotlib h5py tensorflow tensorflow-probability scikit-learn
     
+A python example is available for type of model parameter (m, n1, n2, n3) -->
+
+    python ip_and_ml_regression_m.py
+    python ip_and_ml_classification_n1.py
+    python ip_and_ml_regression_n2.py
+    python ip_and_ml_classification_n3_m.py
+
+To run a short simple setup/training/prediction use (default)
+
+    useSimpleTest=True
+
+To test a laerge number of networks using varying training image size use
+
+    useSimpleTest=False

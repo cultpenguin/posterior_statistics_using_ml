@@ -69,7 +69,7 @@ force_train = False
 learning_rate=0.01
 nepochs=2000
 useBatchNormalization = True
-# for useBatchNormalization in [True,False]:
+
 for usePrior in usePrior_arr:
     for tfp_dist in tfp_dist_arr:
         for usePrior in usePrior_arr:
