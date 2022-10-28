@@ -22,7 +22,10 @@ from ip_and_ml import ml_regression
 # rho_A, rho_B, and rho_C are used, and the posterior mean and variance from sigma(n2) is computed
 #
 # Tensorboard 
-#   tensorboard --logdir='logs_C_M1' 
+#   tensorboard --logdir=logs_A_M5 
+#   tensorboard --logdir=logs_B_M5 
+#   tensorboard --logdir=logs_C_M5 
+
 useSimpleTest=True
 if (useSimpleTest):
     useM='M5' # This refer to choosing the 'n2' model parameter (thicknessof layers woth resistivity>225 ohm-m), p=[n2]; See paper

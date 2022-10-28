@@ -22,7 +22,9 @@ from ip_and_ml import ml_regression
 # rho_A, rho_B, and rho_C are used, and the posterior mean and variance from sigma(m) is computed
 #
 # Tensorboard 
-#   tensorboard --logdir='logs_C_M1' 
+#   tensorboard --logdir=logs_A_M1 
+#   tensorboard --logdir=logs_B_M1 
+#   tensorboard --logdir=logs_C_M1 
 useSimpleTest=True
 if (useSimpleTest):
     useM='M1' # This refer to choosing the resistivity model paramerers, p=[m]; See paper
