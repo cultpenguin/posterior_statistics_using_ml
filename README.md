@@ -20,6 +20,12 @@ The latest updated example is always available at https://github.com/cultpenguin
 
 ## 
 
+If you use conda, use for example the following environment
 
     conda create --name tf python=3.9 numpy scipy jupyterlab matplotlib h5py tensorflow tensorflow-probability scikit-learn
     conda activate tf
+
+If you use pip, install the following packages
+    
+    pip install --upgrade numpy scipy jupyterlab matplotlib h5py tensorflow tensorflow-probability scikit-learn
+    
