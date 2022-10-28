@@ -2,7 +2,7 @@
 
 
 import os
-avoidGPU=0
+avoidGPU=1
 if avoidGPU==1:
     os.environ["CUDA_VISIBLE_DEVICES"] = "-1"    
 
@@ -50,27 +50,45 @@ def ml_regression(usePrior='A',useM='M4',nhidden=4,nunits=40,
         file_sampling = '1D_P23_NO500_451_ABC%d_0000_D%d_HTX%d_%d_ME0_aT1_CN1.h5' % (N,useData,useHTX,useHTX_data)
         if useRef==7:
             file_sampling = '1D_P23_NO500_451_ABC%d_0000_ME0_aT1_CN1_ref7.h5' % (N);txt='ref7' # !!
+        # Download if h5 files does not exist    
+        if not os.path.exists(file_training):
+            print("File (training) '%s' does not exist" % (file_training))
+            print("Downloading '%s'" % (file_training))
+            urlretrieve('https://zenodo.org/record/7254008/files/1D_P23_NO500_451_ABC5000000_0000_D2_HTX1_1.h5?download=1','1D_P23_NO500_451_ABC5000000_0000_D2_HTX1_1.h5')
+        if not os.path.exists(file_sampling):
+            print("File '%s' does not exist" % (file_sampling))
+            print("Downloading %s" % (file_sampling))
+            urlretrieve('https://zenodo.org/record/7254008/files/1D_P23_NO500_451_ABC5000000_0000_D2_HTX1_1_ME0_aT1_CN1.h5?download=1','1D_P23_NO500_451_ABC5000000_0000_D2_HTX1_1_ME0_aT1_CN1.h5')
+
     elif (usePrior=='B'):
         file_training = '1D_P51_NO500_451_ABC%d_0000_D%d_HTX%d_%d.h5' % (N,useData,useHTX,useHTX_data)
         file_sampling = '1D_P51_NO500_451_ABC%d_0000_D%d_HTX%d_%d_ME0_aT1_CN1.h5' % (N,useData,useHTX,useHTX_data)
         if useRef==7:
             file_sampling = '1D_P51_NO500_451_ABC%d_0000_ME0_aT1_CN1_ref7.h5' % (N);txt='ref7'
+        # Download if h5 files does not exist    
+        if not os.path.exists(file_training):
+            print("File (training) '%s' does not exist" % (file_training))
+            print("Downloading '%s'" % (file_training))
+            urlretrieve('https://zenodo.org/record/7254030/files/1D_P51_NO500_451_ABC5000000_0000_D2_HTX1_1.h5?download=1','1D_P51_NO500_451_ABC5000000_0000_D2_HTX1_1.h5')
+        if not os.path.exists(file_sampling):
+            print("File '%s' does not exist" % (file_sampling))
+            print("Downloading %s" % (file_sampling))
+            urlretrieve('https://zenodo.org/record/7254030/files/1D_P51_NO500_451_ABC5000000_0000_D2_HTX1_1_ME0_aT1_CN1.h5?download=1','1D_P51_NO500_451_ABC5000000_0000_D2_HTX1_1_ME0_aT1_CN1.h5')
     elif (usePrior=='C'):
         file_training = '1D_P22_NO500_451_ABC%d_0000_D%d_HTX%d_%d.h5' % (N,useData,useHTX,useHTX_data)
         file_sampling = '1D_P22_NO500_451_ABC%d_0000_D%d_HTX%d_%d_ME0_aT1_CN1.h5' % (N,useData,useHTX,useHTX_data)
         if useRef==7:
             file_sampling = '1D_P22_NO500_451_ABC%d_0000_ME0_aT1_CN1_ref7.h5' % (N);txt='ref7'
+        # Download if h5 files does not exist    
+        if not os.path.exists(file_training):
+            print("File (training) '%s' does not exist" % (file_training))
+            print("Downloading '%s'" % (file_training))
+            urlretrieve('https://zenodo.org/record/7253825/files/1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1.h5?download=1','1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1.h5')
+        if not os.path.exists(file_sampling):
+            print("File '%s' does not exist" % (file_sampling))
+            print("Downloading %s" % (file_sampling))
+            urlretrieve('https://zenodo.org/record/7253825/files/1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1_ME0_aT1_CN1.h5?download=1','1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1_ME0_aT1_CN1.h5')
         
-    # Download if h5 files does not exist    
-    if not os.path.exists(file_training):
-      print("File (training) '%s' does not exist" % (file_training))
-      print("Downloading '%s'" % (file_training))
-      urlretrieve('https://zenodo.org/record/7253825/files/1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1.h5?download=1','1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1.h5')
-      
-    if not os.path.exists(file_sampling):
-      print("File '%s' does not exist" % (file_sampling))
-      print("Downloading %s" % (file_sampling))
-      urlretrieve('https://zenodo.org/record/7253825/files/1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1_ME0_aT1_CN1.h5?download=1','1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1_ME0_aT1_CN1.h5')
             
     f_training = h5py.File(file_training, 'r')
     f_sampling = h5py.File(file_sampling, 'r')

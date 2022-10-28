@@ -13,10 +13,24 @@ First published: 20 October 2022 https://doi.org/10.1029/2022JB024703
 # Estimate statistical properties of the posterior distribution using a neural network.
 #%% Imports
 import numpy as np
-
 from ip_and_ml import ml_regression
+
 #%% m: restivity 
-useM='M1'
+useM='M1' # This refer to choosing the resistivity model paramerers, p=[m]; See paper
+N_use = 100000
+
+ml_regression(useM=useM,
+            usePrior='C', 
+            N_use=N_use, 
+            nunits=40,
+            nhidden=3,
+            nepochs=10, force_train=True)
+        
+import sys
+sys.exit("Stopping ,,,,,,")
+
+
+
 
 # FULL TEST
 usePrior_arr  = ['A','B','C']

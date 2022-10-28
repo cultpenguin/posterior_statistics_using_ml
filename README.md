@@ -17,3 +17,9 @@ Training data for priorB can be downloaded from (https://zenodo.org/record/72540
 Training data for priorC can be downloaded from (https://zenodo.org/record/7253825)
 
 The latest updated example is always available at https://github.com/cultpenguin/posterior_statistics_using_ml
+
+## 
+
+
+    conda create --name tf python=3.9 numpy scipy jupyterlab matplotlib h5py tensorflow tensorflow-probability scikit-learn
+    conda activate tf
