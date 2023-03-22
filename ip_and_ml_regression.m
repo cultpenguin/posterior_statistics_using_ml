@@ -6,7 +6,7 @@ if ~exist('M','var');
     file_training = '1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1.h5';
     file_sampling = '1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1_ME0_aT1_CN1.h5';
 
-    N=1000000;
+    N=100000;
     N=min([N 5000000]);
     Nm=125;
     Nd=13;
@@ -79,8 +79,8 @@ lgraph = layerGraph(layers);
 
 %% Create training options
 options = trainingOptions('adam', ... % or another optimizer
-    'MaxEpochs', 100, ...
-    'MiniBatchSize', 512, ...
+    'MaxEpochs', 10, ...
+    'MiniBatchSize', 128, ...
     'InitialLearnRate', 1e-3, ...
     'Shuffle', 'every-epoch', ...
     'Verbose', true, ...
@@ -111,7 +111,7 @@ t_est = (now-t1)*3600*24
 M_pred = (M_pred.*M_std)+M_mean;
 
 
-
+figure(1),clf;
 %M= (M_org - M_mean) ./ M_std;
 subplot(2,1,1);
 imagesc(10.^M_pred');
