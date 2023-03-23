@@ -6,7 +6,7 @@ if ~exist('M','var');
     file_training = '1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1.h5';
     file_sampling = '1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1_ME0_aT1_CN1.h5';
 
-    N=100000;
+    N=10000;
     N=min([N 5000000]);
     Nm=125;
     Nd=13;
@@ -30,7 +30,6 @@ D_std = std(D2_org, 0, 1); % Calculate the standard deviation along the first di
 M= (M_org - M_mean) ./ M_std;
 D= (D2_org - D_mean) ./ D_std;
 D_obs = (D_obs_org - D_mean) ./ D_std;
-
 
 perc_val=0.1;
 N_val = ceil(N*perc_val);
@@ -65,9 +64,7 @@ end
 % Output layer
 layers = [layers 
     fullyConnectedLayer(outputSize, 'Name','output')
-    regressionLayer('Name','reg_output');
-
-    
+    regressionLayer('Name','reg_output');  
     %fullyConnectedLayer(2*outputSize, 'Name','output')
     %GaussianNegativeLogLikelihoodLayer('gaussianNLL') % Add the custom loss layer
 ];
@@ -78,19 +75,26 @@ lgraph = layerGraph(layers);
 
 
 %% Create training options
+MaxIteNotImproving=10; % max number of iteration where valiadtion loss is not decreasing..
+MiniBatchSize = 128;
+if N>=100000, MiniBatchSize = 512;end
+if N>=1000000, MiniBatchSize = 1024;end
+
+    
 options = trainingOptions('adam', ... % or another optimizer
-    'MaxEpochs', 10, ...
-    'MiniBatchSize', 128, ...
+    'MaxEpochs', 120, ...
+    'MiniBatchSize',     MiniBatchSize, ...
     'InitialLearnRate', 1e-3, ...
     'Shuffle', 'every-epoch', ...
     'Verbose', true, ...
-    'ExecutionEnvironment','cpu', ...
+    'ExecutionEnvironment','auto', ...                                                                                                                                                                                                 ', ...
     'ValidationData',{D_val,M_val}, ...
-    'Plots', 'none');
+    'Plots', 'none', ...
+    'OutputFcn',@(info)stopIfAccuracyNotImproving(info,MaxIteNotImproving));
 %    'Plots', 'training-progress');
 
 
-%%
+%
 
 %arrayDatastore = arrayDatastore(XTrain, YTrain, 'ReadSize', 'default');
 %arrayDatastore = arrayDatastore({D_train, M_train}, 'ReadSize', 512);
@@ -102,7 +106,7 @@ options = trainingOptions('adam', ... % or another optimizer
 
 
 % Train the network
-net = trainNetwork(D_train, M_train, layers, options);
+[net, info] = trainNetwork(D_train, M_train, layers, options);
 
 %%
 t1=now;
@@ -113,25 +117,35 @@ M_pred = (M_pred.*M_std)+M_mean;
 
 figure(1),clf;
 %M= (M_org - M_mean) ./ M_std;
-subplot(2,1,1);
-imagesc(10.^M_pred');
-caxis([1 350])
+subplot(3,1,1);
+imagesc(10.^M_pred');caxis([1 350])
+imagesc(M_pred');caxis([1 3])
 colormap(cmap_geosoft)
 axis image
 colorbar
-subplot(2,1,2);
-imagesc(10.^M_est_org');
-caxis([1 350])
+subplot(3,1,2);
+imagesc(10.^M_est_org');caxis([1 350])
+imagesc(M_est_org');caxis([1 3])
 colormap(cmap_geosoft)
 axis image
 colorbar
 %sgtitle(sprintf('Iteration #%d',i))
+subplot(3,1,3);
+plot(info.TrainingLoss,'k-');
+hold on
+plot(info.ValidationLoss,'r*');
+hold off
+legend({'Training','Validation'})
+ylabel('Loss');xlabel('iteration #')
+grid on
 drawnow
+sgtitle(sprintf('N=%d',N))
+
 
 %%
 figure(2);clf
-M_pred_train  = predict(net, D_train);
-plot(M_train(1:5,:)','k-','LineWidth',2);
+M_pred_val  = predict(net, D_val);
+plot(M_val(1:5,:)','k-','LineWidth',2);
 hold on
-plot(M_pred_train(1:5,:)','-');
+plot(M_pred_val(1:5,:)','-');
 hold off
