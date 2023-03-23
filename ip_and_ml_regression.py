@@ -13,8 +13,8 @@ First published: 20 October 2022 https://doi.org/10.1029/2022JB024703
 # Estimate statistical properties of the posterior distribution using a neural network.
 #%% Imports
 import numpy as np
-
 from ip_and_ml import ml_regression
+
 #%% m: restivity 
 useM='M1'
 
@@ -28,24 +28,26 @@ useRef_arr = [0]
 force_train = False
 nepochs=2000
 useLearningSchedule=True;learning_rate=0.01
-
+ls_arr=[useLearningSchedule]
 act='selu'
 act='relu'
 act='elu'
 
+patience=50;
+l1=0 # L1 regularization
+l2=0 # L2 regularization
 #useLearningSchedule=False;learning_rate=0.001
 
-# SMALL TEST
+#%% SMALL TEST
 doSmallTest=1
 if (doSmallTest==1):
-    #%% MULTI M1
-
+    
     usePrior_arr  = ['C']
     tfp_dist_arr = ['Normal']
     N_use_arr = np.array([5000000]) #  Max size of training data set (multiple runs)
-    N_use_arr = np.array([25000])
+    #N_use_arr = np.array([25000])
     nhidden_arr = [8]
-    ls_arr=[0] # Usew learning schedule
+    ls_arr=[1] # Usew learning schedule
     useHTX=1
     useData_arr = [2]
     useHTX_data_arr = [1]
@@ -53,8 +55,14 @@ if (doSmallTest==1):
     nunits_arr=[40]
     act_arr=['relu']
     useRef=0
+    force_train = True
+    patience=2;
+    l1=0 # Regularization does not seem to do any good..
+    l2=0
+    
+    
 
-# for useBatchNormalization in [True,False]:
+#%% for useBatchNormalization in [True,False]:
 for useBatchNormalization in [True]:
     for useData in useData_arr:
         for useHTX_data in useHTX_data_arr:
@@ -75,12 +83,14 @@ for useBatchNormalization in [True]:
                                                     force_train=force_train,
                                                     useRef=useRef,
                                                     act=act,
+                                                    l1=l1, l2=l2,
+                                                    patience=patience,
                                                     useData=useData,useHTX=useHTX,useHTX_data=useHTX_data,
                                                     useBatchNormalization=useBatchNormalization,
                                                     learning_rate=learning_rate,useLearningSchedule=useLearningSchedule)    
 #%%
-#import sys
-#sys.exit("Stopping ,,,,,,")        
+import sys
+sys.exit("Stopping ,,,,,,")        
     
     
 #%% n2: Thickness of layers with resistivity>225 ohm-m

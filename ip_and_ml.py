@@ -39,6 +39,7 @@ def ml_regression(usePrior='A',useM='M4',nhidden=4,nunits=40,
                       useLearningSchedule=False,force_train=0,verbose=1,useRef=0,
                       tfp_dist='Normal',
                       act='relu',
+                      l1=0, l2=0,
                       useBatchNormalization=True,
                       useHTX=1,useHTX_data=1,useData=2):
 
@@ -134,7 +135,12 @@ def ml_regression(usePrior='A',useM='M4',nhidden=4,nunits=40,
     if (useBatchNormalization):
         model.add(tf.keras.layers.BatchNormalization())    
     for i in range(nhidden):
-        model.add(tf.keras.layers.Dense(nunits, activation=act))
+        if ((l1>0)|(l2>0)):
+            # Use kernel regularizers
+            model.add(tf.keras.layers.Dense(nunits, activation=act, kernel_regularizer=tf.keras.regularizers.l1_l2(l1=l1, l2=l2)))  
+        else:
+            model.add(tf.keras.layers.Dense(nunits, activation=act))  
+            
         if (pdropout>0):
             model.add(tf.keras.layers.Dropout(pdropout))
     
