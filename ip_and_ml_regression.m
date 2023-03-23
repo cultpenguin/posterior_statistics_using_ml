@@ -6,7 +6,7 @@ if ~exist('M','var');
     file_training = '1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1.h5';
     file_sampling = '1D_P22_NO500_451_ABC5000000_0000_D2_HTX1_1_ME0_aT1_CN1.h5';
 
-    N=10000;
+    N=5000000;
     N=min([N 5000000]);
     Nm=125;
     Nd=13;
