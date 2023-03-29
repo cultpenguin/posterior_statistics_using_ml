@@ -29,6 +29,7 @@ if ~exist('M','var');
     D_obs_org =  h5read(file_sampling,'/D_obs')';
     if im==3
         M_est_org =  h5read(file_sampling,'/M_est')';
+        M_est_std =  h5read(file_sampling,'/M_std')';
     elseif im==7
         M_est_org =  h5read(file_sampling,'/T_est')';
         M_std_org =  h5read(file_sampling,'/T_std')';
@@ -88,12 +89,26 @@ layers = [layers
 end
 
 % Output layer
+
+% MSE
 layers = [layers 
     fullyConnectedLayer(outputSize, 'Name','output')
     regressionLayer('Name','reg_output');  
-    %fullyConnectedLayer(2*outputSize, 'Name','output')
-    %GaussianNegativeLogLikelihoodLayer('gaussianNLL') % Add the custom loss layer
 ];
+
+
+%layers = [
+%    % Define your other layers here (input, convolutional, etc.)
+%    fullyConnectedLayer(2 * outputSize, 'Name', 'output')
+%    GaussianNLLLossLayer('gaussian_nll')
+%];
+
+% MAE
+%layers = [layers 
+%    % Define your other layers here (input, convolutional, etc.)
+%    fullyConnectedLayer(outputSize, 'Name', 'output')
+%    CombinedMAELossLayer(outputSize, 'combined_mae_loss')
+%];
 
 % Display the network layers
 disp(layers);
